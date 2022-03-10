@@ -16,7 +16,9 @@ def main():
     printCube()
     cross()
     corners()
+    middleLayer()
     printCube()
+    
     print(solutionMoves)
 
 if __name__ == "__main__":
