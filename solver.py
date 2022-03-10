@@ -234,16 +234,16 @@ def edgeToCorrectPos(c1,c2):
             L()
             F()
 
-# solves the white cross
+# solves the white cross, returns true if it did not perform any moves, false otherwise
 def cross():
     a, b, c, d = False, False, False, False
     if((cube[3][4] != cube[4][4]) or (cube[2][4] != cube[1][4])): # top white/blue edge not in place AKA edge #1
         edgeToCorrectPos('w','b')
-    # edgeToCorrectPos was written for the white/blue edge, so if we rotate any white/<COLOR> to white/blue's place,
-    # then we can perform the same algorithm but just take care of the rotation, 
-    # hence the moves before and after the function call in the following if statements.
     else:
         a = True
+    # edgeToCorrectPos was written for the white/blue edge, so if we rotate any white/<COLOR> edge to white/blue's place,
+    # then we can perform the same algorithm but just take care of the rotation, 
+    # hence the moves before and after the function call in the following if statements.
     if((cube[4][3] != cube[4][4]) or (cube[4][2] != cube[4][1])): # left white/orange edge not in place AKA edge #4
         F() # move white/orange to white/blue's place
         edgeToCorrectPos('w','o')
@@ -266,16 +266,19 @@ def cross():
     if a and b and c and d: return True
     else: return False
 
+# returns the corner's coordinates based on the corner's colors, a, b, and c
 def getCornerPos(a,b,c):
     for x in cornerLinks:
         if (a == cube[x[0][0]][x[0][1]] and b == cube[x[1][0]][x[1][1]] and c == cube[x[2][0]][x[2][1]]) or (a == cube[x[0][0]][x[0][1]] and c == cube[x[1][0]][x[1][1]] and b == cube[x[2][0]][x[2][1]]) or (b == cube[x[0][0]][x[0][1]] and a == cube[x[1][0]][x[1][1]] and c == cube[x[2][0]][x[2][1]]) or (c == cube[x[0][0]][x[0][1]] and a == cube[x[1][0]][x[1][1]] and b == cube[x[2][0]][x[2][1]]) or (c == cube[x[0][0]][x[0][1]] and b == cube[x[1][0]][x[1][1]] and a == cube[x[2][0]][x[2][1]]) or (b == cube[x[0][0]][x[0][1]] and c == cube[x[1][0]][x[1][1]] and a == cube[x[2][0]][x[2][1]]):
             return x
 
+# getCornerNum returns the value of the edge
 def getCornerNum(cPos):
     for i in range(len(cornerLinks)):
         if cPos == cornerLinks[i]:
             return i + 1
 
+# performs specific moves based on the corner's position and orientation
 def cornerToCorrectPos(c1,c2,c3):
     cornerPos = getCornerPos(c1,c2,c3)
     cornerNum = getCornerNum(cornerPos)
@@ -285,17 +288,18 @@ def cornerToCorrectPos(c1,c2,c3):
             R()
             B()
             Ri()
-            B2()
-            Ui()
+            Bi()
+            R()
             B()
-            U()
-        else:
+            Ri()
+        elif cube[cornerPos[0][0]][cornerPos[0][1]] == c3:
             R()
             Bi()
             Ri()
-            Ui()
+            B()
+            R()
             Bi()
-            U()
+            Ri()
     elif cornerNum == 2:
         if cube[cornerPos[0][0]][cornerPos[0][1]] == c1:
             D()
@@ -346,38 +350,51 @@ def cornerToCorrectPos(c1,c2,c3):
             Bi()
             Ri()
     elif cornerNum == 4:
-        if cube[cornerPos[0][0]][cornerPos[0][1]] == c1:
+        if cube[cornerPos[0][0]][cornerPos[0][1]] == c3:
             R()
             Li()
             Bi()
             L()
             Ri()
         elif cube[cornerPos[0][0]][cornerPos[0][1]] == c2:
-            U()
-            Bi()
-            Ui()
-            Bi()
-            R()
+            Li()
+            B()
+            L()
             B2()
-            Ri()
-            Bi()
-            Bi()
             Ui()
             B()
             U()
+            # U()
+            # Bi()
+            # Ui()
+            # Bi()
+            # R()
+            # B2()
+            # Ri()
+            # Bi()
+            # Bi()
+            # Ui()
+            # B()
+            # U()
         else:
-            U()
-            Bi()
-            Ui()
-            Bi()
-            R()
+            Li()
             B2()
-            Ri()
-            Bi()
-            Bi()
+            L()
             Ui()
             B()
             U()
+            # U()
+            # Bi()
+            # Ui()
+            # Bi()
+            # R()
+            # B2()
+            # Ri()
+            # Bi()
+            # Bi()
+            # Ui()
+            # B()
+            # U()
     elif cornerNum == 5:
         if cube[cornerPos[0][0]][cornerPos[0][1]] == c1:
             R()
@@ -458,6 +475,7 @@ def cornerToCorrectPos(c1,c2,c3):
             B()
             U()
 
+# solves the white corners, returns true if it did not perform any moves, false otherwise
 def corners():
     a, b, c, d = False, False, False, False
 
@@ -465,98 +483,337 @@ def corners():
         cornerToCorrectPos('w','b','r')
     else:
         a = True
+    # same as with edgeToCorrectPos, cornerToCorrectPos was written for the white/blue/red corner, so if we rotate any white/<COLOR>/<COLOR> corner to white/blue/red's place,
+    # then we can perform the same algorithm but just take care of the rotation, 
+    # hence the moves before and after the function call in the following if statements.
     if((cube[5][5] != cube[4][4]) or (cube[5][6] != cube[4][7]) or (cube[6][5] != cube[7][4])): # white/red/green corner not in place
-        Fi()
+        Fi() # move white/red/green corner to white/blue/red's place
         cornerToCorrectPos('w','r','g')
-        F()
+        F() # undo rotation
     else:
         b = True
     if((cube[5][3] != cube[4][4]) or (cube[6][3] != cube[7][4]) or (cube[5][2] != cube[4][1])): # white/green/orange corner not in place
-        F2()
+        F2() # move white/green/orange corner to white/blue/red's place
         cornerToCorrectPos('w','g','o')
-        F2()
+        F2() # undo rotation
     else:
         c = True
     if((cube[3][3] != cube[4][4]) or (cube[3][2] != cube[4][1]) or (cube[2][3] != cube[1][4])): # white/orange/blue not in place
-        F()
+        F() # move white/orange/blue corner to white/blue/orange's place
         cornerToCorrectPos('w','o','b')
-        Fi()
+        Fi() # undo rotation
     else:
         d = True
 
     if a and b and c and d: return True
     else: return False
 
-def midEdgeToCorrectPos(c1,c2):
+# Algorithm to get an edge from the top layer into the left position in the middle layer
+def leftEdgeAlg():
+    Bi()
+    Li()
+    B()
+    L()
+    B()
+    U()
+    Bi()
+    Ui()
+
+# Algorithm to get an edge from the top layer into the right position in the middle layer
+def rightEdgeAlg():
+    B()
+    R()
+    Bi()
+    Ri()
+    Bi()
+    Ui()
+    B()
+    U()
+
+# Since we can't rotate the cube, then we need variations of the edge algorithms.
+# leftEdgeAlg on right side
+def leftEdgeAlgR():
+    Bi()
+    Ui()
+    B()
+    U()
+    B()
+    R()
+    Bi()
+    Ri()
+
+# rightEdgeAlg on right side
+def rightEdgeAlgR():
+    B()
+    D()
+    Bi()
+    Di()
+    Bi()
+    Ri()
+    B()
+    R()
+
+# leftEdgeAlg on left side
+def leftEdgeAlgL():
+    Bi()
+    Di()
+    B()
+    D()
+    B()
+    L()
+    Bi()
+    Li()
+
+# rightEdgeAlg on left side
+def rightEdgeAlgL():
+    B()
+    U()
+    Bi()
+    Ui()
+    Bi()
+    Li()
+    B()
+    L()
+
+# leftEdgeAlg on bottom side
+def leftEdgeAlgB():
+    Bi()
+    Ri()
+    B()
+    R()
+    B()
+    D()
+    Bi()
+    Di()
+
+# rightEdgeAlg on bottm side
+def rightEdgeAlgB():
+    B()
+    L()
+    Bi()
+    Li()
+    Bi()
+    Di()
+    B()
+    D()
+
+# performs specific moves based on the middle blue/green edge's position and orientation
+# unlike edgeToCorrectPos and cornerToCorrectPos, this function cannot be generalized
+# because we are unable to rotate the middle edge if we consider the hardware limitations.
+def midEdgeToCorrectPosBR(c1,c2):
     edgePos = getEdgePos(c1,c2)
     edgeNum = getEdgeNum(edgePos)
-    
-    if edgeNum == 5:
-        print(edgeNum)
-        if cube[edgePos[0][0]][edgePos[0][1]] == 'b': # c1
-            print('b')
-        elif cube[edgePos[0][0]][edgePos[0][1]] == 'r': # c2
-            print('r')
-    elif edgeNum == 6:
-        print(edgeNum)
-        if cube[edgePos[0][0]][edgePos[0][1]] == 'b': # c1
-            print('b')
-        elif cube[edgePos[0][0]][edgePos[0][1]] == 'r': # c2
-            print('r')
-    elif edgeNum == 7:
-        print(edgeNum)
-        if cube[edgePos[0][0]][edgePos[0][1]] == 'b': # c1
-            print('b')
-        elif cube[edgePos[0][0]][edgePos[0][1]] == 'r': # c2
-            print('r')
-    elif edgeNum == 8:
-        print(edgeNum)
-        if cube[edgePos[0][0]][edgePos[0][1]] == 'b': # c1
-            print('b')
-        elif cube[edgePos[0][0]][edgePos[0][1]] == 'r': # c2
-            print('r')
-    elif edgeNum == 9:
-        print(edgeNum)
-        if cube[edgePos[0][0]][edgePos[0][1]] == 'b': # c1
-            print('b')
-        elif cube[edgePos[0][0]][edgePos[0][1]] == 'r': # c2
-            print('r')
-    elif edgeNum == 10:
-        print(edgeNum)
-        if cube[edgePos[0][0]][edgePos[0][1]] == 'b': # c1
-            print('b')
-        elif cube[edgePos[0][0]][edgePos[0][1]] == 'r': # c2
-            print('r')
-    elif edgeNum == 11:
-        print(edgeNum)
-        if cube[edgePos[0][0]][edgePos[0][1]] == 'b': # c1
-            print('b')
-        elif cube[edgePos[0][0]][edgePos[0][1]] == 'r': # c2
-            print('r')
-    elif edgeNum == 12:
-        print(edgeNum)
-        if cube[edgePos[0][0]][edgePos[0][1]] == 'b': # c1
-            print('b')
-        elif cube[edgePos[0][0]][edgePos[0][1]] == 'r': # c2
-            print('r')
 
+    if edgeNum == 5:
+        if cube[edgePos[0][0]][edgePos[0][1]] == c2:
+            rightEdgeAlg()
+            B2()
+            rightEdgeAlg()
+    elif edgeNum == 6:
+        if cube[edgePos[0][0]][edgePos[0][1]] == c1:
+            rightEdgeAlgR()
+            B2()
+            leftEdgeAlgR()
+        elif cube[edgePos[0][0]][edgePos[0][1]] == c2:
+            rightEdgeAlgR()
+            Bi()
+            rightEdgeAlg()
+    elif edgeNum == 7:
+        if cube[edgePos[0][0]][edgePos[0][1]] == c1:
+            leftEdgeAlgL()
+            leftEdgeAlgR()
+        elif cube[edgePos[0][0]][edgePos[0][1]] == c2:
+            leftEdgeAlgL()
+            B()
+            rightEdgeAlg()
+    elif edgeNum == 8:
+        if cube[edgePos[0][0]][edgePos[0][1]] == c1:
+            leftEdgeAlg()
+            B()
+            leftEdgeAlgR()
+        elif cube[edgePos[0][0]][edgePos[0][1]] == c2:
+            leftEdgeAlg()
+            B2()
+            rightEdgeAlg()
+    elif edgeNum == 9:
+        if cube[edgePos[0][0]][edgePos[0][1]] == c1:
+            rightEdgeAlg()
+        elif cube[edgePos[0][0]][edgePos[0][1]] == c2:
+            Bi()
+            leftEdgeAlgR()
+    elif edgeNum == 10:
+        if cube[edgePos[0][0]][edgePos[0][1]] == c1:
+            B()
+            rightEdgeAlg()
+        elif cube[edgePos[0][0]][edgePos[0][1]] == c2:
+            leftEdgeAlgR()
+    elif edgeNum == 11:
+        if cube[edgePos[0][0]][edgePos[0][1]] == c1:
+            B()
+            leftEdgeAlgR()
+        elif cube[edgePos[0][0]][edgePos[0][1]] == c2:
+            B2()
+            rightEdgeAlg()
+    elif edgeNum == 12:
+        if cube[edgePos[0][0]][edgePos[0][1]] == c1:
+            Bi()
+            rightEdgeAlg()
+        elif cube[edgePos[0][0]][edgePos[0][1]] == c2:
+            B2()
+            leftEdgeAlgR()
+
+# performs specific moves based on the middle green/red edge's position and orientation
+def midEdgeToCorrectPosGR(c1,c2):
+    edgePos = getEdgePos(c1,c2)
+    edgeNum = getEdgeNum(edgePos)
+
+    if edgeNum == 6:
+        if cube[edgePos[0][0]][edgePos[0][1]] == c1:
+            rightEdgeAlgR()
+            B2()
+            rightEdgeAlgR()
+    elif edgeNum == 7:
+        if cube[edgePos[0][0]][edgePos[0][1]] == c1:
+            leftEdgeAlgL()
+            rightEdgeAlgR()
+        elif cube[edgePos[0][0]][edgePos[0][1]] == c2:
+            leftEdgeAlgL()
+            Bi()
+            leftEdgeAlgB()
+    elif edgeNum == 8:
+        if cube[edgePos[0][0]][edgePos[0][1]] == c1:
+            leftEdgeAlg()
+            B()
+            rightEdgeAlgR()
+        elif cube[edgePos[0][0]][edgePos[0][1]] == c2:
+            leftEdgeAlg()
+            leftEdgeAlgB()
+    elif edgeNum == 9:
+        if cube[edgePos[0][0]][edgePos[0][1]] == c1:
+            B2()
+            leftEdgeAlgB()
+        elif cube[edgePos[0][0]][edgePos[0][1]] == c2:
+            Bi()
+            rightEdgeAlgR()
+    elif edgeNum == 10:
+        if cube[edgePos[0][0]][edgePos[0][1]] == c1:
+            Bi()
+            leftEdgeAlgB()
+        elif cube[edgePos[0][0]][edgePos[0][1]] == c2:
+            rightEdgeAlgR()
+    elif edgeNum == 11:
+        if cube[edgePos[0][0]][edgePos[0][1]] == c1:
+            B()
+            rightEdgeAlgR()
+        elif cube[edgePos[0][0]][edgePos[0][1]] == c2:
+            leftEdgeAlgB()
+    elif edgeNum == 12:
+        if cube[edgePos[0][0]][edgePos[0][1]] == c1:
+            B()
+            leftEdgeAlgB()
+        elif cube[edgePos[0][0]][edgePos[0][1]] == c2:
+            B2()
+            rightEdgeAlgR()
+
+# performs specific moves based on the middle green/orange edge's position and orientation
+def midEdgeToCorrectPosGO(c1,c2):
+    edgePos = getEdgePos(c1,c2)
+    edgeNum = getEdgeNum(edgePos)
+
+    if edgeNum == 7:
+        if cube[edgePos[0][0]][edgePos[0][1]] == c1:
+            leftEdgeAlgL()
+            B2()
+            leftEdgeAlgL()
+    elif edgeNum == 8:
+        if cube[edgePos[0][0]][edgePos[0][1]] == c1:
+            leftEdgeAlg()
+            Bi()
+            leftEdgeAlgL()
+        elif cube[edgePos[0][0]][edgePos[0][1]] == c2:
+            leftEdgeAlg()
+            rightEdgeAlgB()
+    elif edgeNum == 9:
+        if cube[edgePos[0][0]][edgePos[0][1]] == c1:
+            B2()
+            rightEdgeAlgB()
+        elif cube[edgePos[0][0]][edgePos[0][1]] == c2:
+            B()
+            leftEdgeAlgL()
+    elif edgeNum == 10:
+        if cube[edgePos[0][0]][edgePos[0][1]] == c1:
+            Bi()
+            rightEdgeAlgB()
+        elif cube[edgePos[0][0]][edgePos[0][1]] == c2:
+            B2()
+            leftEdgeAlgL()
+    elif edgeNum == 11:
+        if cube[edgePos[0][0]][edgePos[0][1]] == c1:
+            Bi()
+            leftEdgeAlgL()
+        elif cube[edgePos[0][0]][edgePos[0][1]] == c2:
+            rightEdgeAlgB()
+    elif edgeNum == 12:
+        if cube[edgePos[0][0]][edgePos[0][1]] == c1:
+            B()
+            rightEdgeAlgB()
+        elif cube[edgePos[0][0]][edgePos[0][1]] == c2:
+            leftEdgeAlgL()
+
+# performs specific moves based on the middle orange/blue edge's position and orientation
+def midEdgeToCorrectPosOB(c1,c2):
+    edgePos = getEdgePos(c1,c2)
+    edgeNum = getEdgeNum(edgePos)
+
+    if edgeNum == 8:
+        if cube[edgePos[0][0]][edgePos[0][1]] == c1:
+            leftEdgeAlg()
+            B2()
+            leftEdgeAlg()
+    elif edgeNum == 9:
+        if cube[edgePos[0][0]][edgePos[0][1]] == c1:
+            B()
+            rightEdgeAlgL()
+        elif cube[edgePos[0][0]][edgePos[0][1]] == c2:
+            leftEdgeAlg()
+    elif edgeNum == 10:
+        if cube[edgePos[0][0]][edgePos[0][1]] == c1:
+            B2()
+            rightEdgeAlgL()
+        elif cube[edgePos[0][0]][edgePos[0][1]] == c2:
+            B()
+            leftEdgeAlg()
+    elif edgeNum == 11:
+        if cube[edgePos[0][0]][edgePos[0][1]] == c1:
+            B2()
+            leftEdgeAlg()
+        elif cube[edgePos[0][0]][edgePos[0][1]] == c2:
+            Bi()
+            rightEdgeAlgL()
+    elif edgeNum == 12:
+        if cube[edgePos[0][0]][edgePos[0][1]] == c1:
+            rightEdgeAlgL()
+        elif cube[edgePos[0][0]][edgePos[0][1]] == c2:
+            Bi()
+            leftEdgeAlg()
+
+# solves the middle layer, returns true if it did not perform any moves, false otherwise
 def middleLayer():
     a, b, c, d = False, False, False, False
     if((cube[1][5] != cube[1][4]) or (cube[3][7] != cube[4][7])): # blue/red edge not in place
-        print("BR")
-        midEdgeToCorrectPos('b','r')
+        midEdgeToCorrectPosBR('b','r')
     else:
         a = True
     if((cube[5][7] != cube[4][7]) or (cube[7][5] != cube[7][4])): # red/green edge not in place
-        print("RG")
+        midEdgeToCorrectPosGR('g','r') # cant think of a way to generalize this so had to create functions for the for middle edges
     else:
         b = True
     if((cube[7][4] != cube[7][3]) or (cube[5][1] != cube[4][1])): # green/orange edge not in place
-        print("GO")
+        midEdgeToCorrectPosGO('g','o')
     else:
         c = True
     if((cube[3][1] != cube[4][1]) or (cube[1][3] != cube[1][5])): # orange/blue edge not in place
-        print("OB")
+        midEdgeToCorrectPosOB('o','b')
     else:
         d = True
 
