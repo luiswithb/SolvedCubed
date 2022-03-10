@@ -234,6 +234,30 @@ def B():
     cube[3][10] = previous_state[4][9]
     cube[3][11] = previous_state[3][9]
     solutionMoves.append("B")
+def M():
+    previous_state = deepcopy(cube)
+
+    # move orange to blue
+    cube[1][3] = previous_state[5][1]
+    cube[1][4] = previous_state[4][1]
+    cube[1][5] = previous_state[3][1]
+
+    # move green to orange
+    cube[5][1] = previous_state[7][5]
+    cube[4][1] = previous_state[7][4]
+    cube[3][1] = previous_state[7][3]
+
+    # move red to green
+    cube[7][5] = previous_state[3][7]
+    cube[7][4] = previous_state[4][7]
+    cube[7][3] = previous_state[5][7]
+
+    # move blue to red
+    cube[3][7] = previous_state[1][3]
+    cube[4][7] = previous_state[1][4]
+    cube[5][7] = previous_state[1][5]
+    solutionMoves.append("M")
+
 def R2():
     for i in range(2):
         R()
@@ -252,6 +276,9 @@ def F2():
 def B2():
     for i in range(2):
         B()
+def M2():
+    for i in range(2):
+        M()
 def Ri():
     for i in range(3):
         R()
@@ -270,3 +297,6 @@ def Fi():
 def Bi():
     for i in range(3):
         B()
+def Mi():
+    for i in range(3):
+        M()
