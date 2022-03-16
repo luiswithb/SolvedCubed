@@ -11,7 +11,7 @@ cube = [['_', '_', '_', 'b', 'b', 'b', '_', '_', '_', '_', '_', '_'],
         ['_', '_', '_', 'g', 'g', 'g', '_', '_', '_', '_', '_', '_']]
 
 solutionMoves = []
- 
+
 # Before change
 #   012 345 678 910111
 # 0     bbb
@@ -68,7 +68,7 @@ def R():
     cube[3][6] = previous_state[5][6]
     cube[3][7] = previous_state[4][6]
     cube[3][8] = previous_state[3][6]
-    solutionMoves.append("R")
+    solutionMoves.append(R)
 def L():
     previous_state = deepcopy(cube)
     
@@ -101,7 +101,7 @@ def L():
     cube[3][0] = previous_state[5][0]
     cube[3][1] = previous_state[4][0]
     cube[3][2] = previous_state[3][0]
-    solutionMoves.append("L")
+    solutionMoves.append(L)
 def U():
     previous_state = deepcopy(cube)
     
@@ -134,7 +134,7 @@ def U():
     cube[0][3] = previous_state[2][3]
     cube[0][4] = previous_state[1][3]
     cube[0][5] = previous_state[0][3]
-    solutionMoves.append("U")
+    solutionMoves.append(U)
 def D():
     previous_state = deepcopy(cube)
     
@@ -167,7 +167,7 @@ def D():
     cube[6][3] = previous_state[8][3]
     cube[6][4] = previous_state[7][3]
     cube[6][5] = previous_state[6][3]
-    solutionMoves.append("D")
+    solutionMoves.append(D)
 def F():
     previous_state = deepcopy(cube)
     
@@ -200,7 +200,7 @@ def F():
     cube[3][3] = previous_state[5][3]
     cube[3][4] = previous_state[4][3]
     cube[3][5] = previous_state[3][3]
-    solutionMoves.append("F")
+    solutionMoves.append(F)
 def B():
     previous_state = deepcopy(cube)
     
@@ -233,7 +233,7 @@ def B():
     cube[3][9] = previous_state[5][9]
     cube[3][10] = previous_state[4][9]
     cube[3][11] = previous_state[3][9]
-    solutionMoves.append("B")
+    solutionMoves.append(B)
 
 def R2():
     for i in range(2):
@@ -271,3 +271,21 @@ def Fi():
 def Bi():
     for i in range(3):
         B()
+def R2i():
+    for i in range(2):
+        Ri()
+def L2i():
+    for i in range(2):
+        Li()
+def U2i():
+    for i in range(2):
+        Ui()
+def D2i():
+    for i in range(2):
+        Di()
+def F2i():
+    for i in range(2):
+        Fi()
+def B2i():
+    for i in range(2):
+        Bi()
