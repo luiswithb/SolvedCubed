@@ -14,15 +14,17 @@ solvedCube = [['_', '_', '_', 'b', 'b', 'b', '_', '_', '_', '_', '_', '_'],
 moves = [R,L,U,D,F,B]# R2,L2,U2,D2,F2,B2,Ri,Li,Ui,Di,Di,Fi,Bi]
 
 def scramble():
+    scramble = []
     for i in range(20):
         r = random.randint(0,len(moves) - 1)
         moves[r]()
+        scramble.append(moves[r].__name__)
     solutionMoves.clear()
+    return scramble
 
 def printCube():
     for x in cube:
         print(x)
-    print("\n")
 
 # 12 edge pieces, numerated as follows:
 # FRONT LAYER, white face
@@ -820,6 +822,289 @@ def middleLayer():
     if a and b and c and d: return True
     else: return False
 
+# this function basically re-orients the cube so that the moves are performed as if the blue edge was the "main" face
+# the input is a string of valid moves seperated by a space eg. "R D B U2i"
+def movesInBlueOrientation(moves):
+    m = moves.split()
+
+    for move in m:
+        if move == 'R':
+            R()
+        elif move == 'L':
+            L()
+        elif move == 'U':
+            B()
+        elif move == 'D':
+            F()
+        elif move == 'F':
+            U()
+        elif move == 'B':
+            D()
+        elif move == 'R2':
+            R2()
+        elif move == 'L2':
+            L2()
+        elif move == 'U2':
+            B2()
+        elif move == 'D2':
+            F2()
+        elif move == 'F2':
+            U2()
+        elif move == 'B2':
+            D2()
+        elif move == 'Ri':
+            Ri()
+        elif move == 'Li':
+            Li()
+        elif move == 'Ui':
+            Bi()
+        elif move == 'Di':
+            Fi()
+        elif move == 'Fi':
+            Ui()
+        elif move == 'Bi':
+            Di()
+        elif move == 'R2i':
+            R2i()
+        elif move == 'L2i':
+            L2i()
+        elif move == 'U2i':
+            B2i()
+        elif move == 'D2i':
+            F2i()
+        elif move == 'F2i':
+            U2i()
+        elif move == 'B2i':
+            D2i()
+
+# returns a string composed of x and y characters, where x is "any" color and y is the color yellow
+def yellowOrientation():
+    # the colors of the last layer a represented by the letters a-u
+    # if we view the yellow face from above, with the blue face towards are the edges are:
+    # a b c
+    # d e f
+    # g h i
+    # if we hold the cube with the blue face towards us and yellow on top then j-u are the colors starting from
+    # the top left blue corner, then going around the cube to the right, stopping at the top right orange corner
+    a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u = cube[5][11], cube[5][10], cube[5][9], \
+    cube[4][11], cube[4][10], cube[4][9], \
+    cube[3][11], cube[3][10], cube[3][9], \
+    cube[0][3], cube[0][4], cube[0][5], \
+    cube[3][8], cube[4][8], cube[5][8], \
+    cube[8][5], cube[8][4], cube[8][3], \
+    cube[5][0], cube[4][0], cube[3][0]
+
+    # the string created is in the order a-u as described above, this is used to recognize the orientation of the last layer
+    oritentation = a+b+c+d+e+f+g+h+i+j+k+l+m+n+o+p+q+r+s+t+u
+    oritentation = list(oritentation)
+
+    for i in range(len(oritentation)):
+        if oritentation[i] != 'y':
+            oritentation[i] = 'x'
+    
+    return ("".join(oritentation))
+
+# returns true if the last layer has been oriented, false otherwise
+# each case is represented as a string which tells us the orientation of the yellow layer
+# when an orientation is found, it performs the specific algorithm to orient the yellow face
+def orientLastLayer():
+    for i in range(4):
+        orientation = yellowOrientation()
+        #print(orientation)
+
+        # Yellow completed
+        if orientation == 'yyyyyyyyyxxxxxxxxxxxx':
+            return(True)
+        # All edges oriented
+        elif orientation == 'xyyyyyxyxyxxyxxxxxyxx':
+            movesInBlueOrientation("R U2 Ri Ui R Ui Ri")
+            return(True)
+        elif orientation == 'xyxyyyyyxxxyxxyxxyxxx':
+            movesInBlueOrientation("R U Ri U R U2i Ri")
+            return(True)
+        elif orientation == 'xyxyyyxyxyxyxxxyxyxxx':
+            movesInBlueOrientation("R U2 Ri Ui R U Ri Ui R Ui Ri")
+            return(True)
+        elif orientation == 'xyxyyyxyxxxyxxxyxxyxy':
+            movesInBlueOrientation("R U2i R2i Ui R2 Ui R2i Ui Ui R")
+            return(True)
+        elif orientation == 'xyyyyyxyyyxxxxxxxyxxx':
+            movesInBlueOrientation("") # convert
+            return(False)
+        elif orientation == 'yyxyyyxyyyxxxxyxxxxxx':
+            movesInBlueOrientation("") # convert
+            return(False)
+        elif orientation == 'yyyyyyxyxyxyxxxxxxxxx':
+            movesInBlueOrientation("R2 D Ri U2 R Di Ri U2 Ri")
+            return(True)
+        # T-shapes
+        elif orientation == 'xxyyyyxxyyyxxxxxyyxxx':
+            movesInBlueOrientation("R U Ri Ui Ri F R Fi")
+            return(True)
+        elif orientation == 'xxyyyyxxyxyxxxxxyxyxy':
+            movesInBlueOrientation("F R U Ri Ui Fi")
+            return(True)
+        # Squares
+        elif orientation == 'xxxxyyxyyxxxxxyxyyxyy':
+            movesInBlueOrientation("") # convert
+            return(False)
+        elif orientation == 'xyyxyyxxxyyxyxxxxxyyx':
+            movesInBlueOrientation("") # convert
+            return(False)
+        # C-shapes
+        elif orientation == 'xxxyyyyxyxyxxxyxyxyxx':
+            movesInBlueOrientation("R U R2i Ui Ri F R U R Ui Fi") 
+            return(True)
+        elif orientation == 'yyxxyxyyxxxxyyyxxxxyx':
+            movesInBlueOrientation("Ri Ui Ri F R Fi U R")
+            return(True)
+        # W-shapes
+        elif orientation == 'yxxyyxxyyyxxxyyxyxxxx':
+            movesInBlueOrientation("") # ?
+            return(False)
+        elif orientation == 'xyyyyxyxxxyxyyxxxyxxx':
+            movesInBlueOrientation("R U Ri U R Ui Ri Ui Ri F R Fi")
+            return(True)
+        # Corners correct- flipped edges
+        elif orientation == 'yyyyyxyxyxyxxyxxxxxxx':
+            movesInBlueOrientation("") # convert
+            return(False)
+        elif orientation == 'yxyyyyyxyxyxxxxxyxxxx':
+            movesInBlueOrientation("") # convert
+            return(False)
+        # P-shapes
+        elif orientation == 'xyyxyyxxyyyxxxxxxyxyx':
+            movesInBlueOrientation("Ri Ui F U R Ui Ri Fi R")
+            return(True)
+        elif orientation == 'xxyxyyxyyyxxxxxxyyxyx':
+            movesInBlueOrientation("R U Bi Ui Ri U R B Ri")
+            return(True)
+        elif orientation == 'yxxyyxyyxxxxyyyxyxxxx':
+            movesInBlueOrientation("") # convert
+            return(False)
+        elif orientation == 'xxyxyyxyyxxxxxxxyxyyy':
+            movesInBlueOrientation("") # convert
+            return(False)
+        # I-shapes
+        elif orientation == 'xxxyyyxxxxyyxxxyyxyxy':
+            movesInBlueOrientation("") # convert
+            return(False)
+        elif orientation == 'xxxyyyxxxxyxyxyxyxyxy':
+            movesInBlueOrientation("") # convert
+            return(False)
+        elif orientation == 'xyxxyxxyxyxxyyyxxyxyx':
+            movesInBlueOrientation("") # convert
+            return(False)
+        elif orientation == 'xyxxyxxyxxxxyyyxxxyyy':
+            movesInBlueOrientation("") # convert
+            return(False)
+        # Fish shapes
+        elif orientation == 'xyxyyxxxyyyxxyxyxxyxx':
+            movesInBlueOrientation("R U Ri Ui Ri F R2 U Ri Ui Fi")
+            return(True)
+        elif orientation == 'xxyyyxxyxxxyxyxxyyxxy':
+            movesInBlueOrientation("R U Ri U Ri F R Fi R U2i Ri")
+            return(True)
+        elif orientation == 'yxxxyyxyyyxxxxyxyxxyx':
+            movesInBlueOrientation("R U2i R2i F R Fi R U2i Ri")
+            return(True)
+        elif orientation == 'yyxyyxxxyyyxxyyxxxxxx':
+            movesInBlueOrientation("F R Ui Ri Ui R U Ri Fi")
+            return(True)
+        # Knight move shapes
+        elif orientation == 'xxxyyyyxxxyyxxyxyyxxx':
+            movesInBlueOrientation("") # convert
+            return(False)
+        elif orientation == 'xxxyyyxxyyyxxxxyyxyxx':
+            movesInBlueOrientation("Ri F R U Ri Fi R F Ui Fi")
+            return(True)
+        elif orientation == 'xxyyyyxxxyyxyxxxyxyxx':
+            movesInBlueOrientation("") # convert
+            return(False)
+        elif orientation == 'xxxyyyxxyxyxxxyxyyxxy':
+            movesInBlueOrientation("") # convert
+            return(False)
+        # Awkward shapes
+        elif orientation == 'yxyyyxxyxxxxyyxxyxxxy':
+            movesInBlueOrientation("") # convert
+            return(False)
+        elif orientation == 'yyxxyyyxxxyyxxxyxxxyx':
+            movesInBlueOrientation("") # convert
+            return(False)
+        elif orientation == 'xyxyyxyxyxyxxyxyxyxxx':
+            movesInBlueOrientation("R U Ri U R U2i Ri F R U Ri Ui Fi")
+            return(True)
+        elif orientation == 'yxyyyxxyxyxyxyxxyxxxx':
+            movesInBlueOrientation("Ri Ui R Ui Ri U2 R F R U Ri Ui Fi")
+            return(True)
+        # L-shapes
+        elif orientation == 'xyxyyxxxxxyyxyxyxxyxy':
+            movesInBlueOrientation("F R U Ri Ui R U Ri Ui Fi")
+            return(True)
+        elif orientation == 'xyxxyyxxxyyxyxyxxyxyx':
+            movesInBlueOrientation("Fi Li Ui L U Li Ui L U F")
+            return(True)
+        elif orientation == 'xyxxyyxxxxyyxxxyxxyyy':
+            movesInBlueOrientation("") # convert
+            return(False)
+        elif orientation == 'xxxxyyxyxxxyxxxyyxyyy':
+            movesInBlueOrientation("") # convert
+            return(False)
+        elif orientation == 'xxxxyyxyxxxxyxyxyxyyy':
+            movesInBlueOrientation("") # convert
+            return(False)
+        elif orientation == 'xyxxyyxxxxyxyxyxxxyyy':
+            movesInBlueOrientation("") # convert
+            return(False)
+        # Lightning bolts
+        elif orientation == 'xyxyyxyxxxyyxyyxxyxxx':
+            movesInBlueOrientation("") # convert
+            return(False)
+        elif orientation == 'yxxyyxxyxyxxyyxyyxxxx':
+            movesInBlueOrientation("") # convert
+            return(False)
+        elif orientation == 'xxxxyyyyxxxyxxyxyyxyx':
+            movesInBlueOrientation("") # convert
+            return(False)
+        elif orientation == 'yyxxyyxxxyyxyxxyxxxyx':
+            movesInBlueOrientation("") # convert
+            return(False)
+        elif orientation == 'xxyyyyyxxxyxyxxxyyxxx':
+            movesInBlueOrientation("L Fi Li Ui L U F Ui Li")
+            return(True)
+        elif orientation == 'yxxyyyxxyxyxxxxyyxxxy':
+            movesInBlueOrientation("Ri F R U Ri Ui Fi U R")
+            return(True)
+        # No edges flipped
+        elif orientation == 'xxxxyxxxxxyxyyyxyxyyy':
+            movesInBlueOrientation("R U2i R2i F R Fi U2i Ri F R Fi")
+            return(True)
+        elif orientation == 'xxxxyxxxxxyyxyxyyxyyy':
+            movesInBlueOrientation("") # convert
+            return(False)
+        elif orientation == 'xxxxyxxxyxyxxyyxyyxyy':
+            movesInBlueOrientation("") # convert
+            return(False)
+        elif orientation == 'xxyxyxxxxyyxyyxxyxyyx':
+            movesInBlueOrientation("") # convert
+            return(False)
+        elif orientation == 'yxyxyxxxxyyyxyxxyxxyx':
+            movesInBlueOrientation("") # convert
+            return(False)
+        elif orientation == 'yxyxyxxxxxyxyyxxyxxyy':
+            movesInBlueOrientation("") # convert
+            return(False)
+        elif orientation == 'yxxxyxxxyxyxxyxyyxxyy':
+            movesInBlueOrientation("R U Ri U Ri F R Fi U2i Ri F R Fi")
+            return(True)
+        elif orientation == 'yxyxyxyxyxyxxyxxyxxyx':
+            movesInBlueOrientation("") # convert
+            return(False)
+        else:
+            movesInBlueOrientation("U")
+
+    return(False)
+        
 #------------------------------------------------------------------------------------------------------------------
 # the following are helper functions, used to get some values, not used in program
 
