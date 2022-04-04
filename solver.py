@@ -895,14 +895,14 @@ def yellowOrientation():
     cube[5][0], cube[4][0], cube[3][0]
 
     # the string created is in the order a-u as described above, this is used to recognize the orientation of the last layer
-    oritentation = a+b+c+d+e+f+g+h+i+j+k+l+m+n+o+p+q+r+s+t+u
-    oritentation = list(oritentation)
+    orientation = a+b+c+d+e+f+g+h+i+j+k+l+m+n+o+p+q+r+s+t+u
+    orientation = list(orientation)
 
-    for i in range(len(oritentation)):
-        if oritentation[i] != 'y':
-            oritentation[i] = 'x'
+    for i in range(len(orientation)):
+        if orientation[i] != 'y':
+            orientation[i] = 'x'
     
-    return ("".join(oritentation))
+    return ("".join(orientation))
 
 # returns true if the last layer has been oriented, false otherwise
 # each case is represented as a string which tells us the orientation of the yellow layer
@@ -930,10 +930,10 @@ def orientLastLayer():
             return(True)
         elif orientation == 'xyyyyyxyyyxxxxxxxyxxx':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         elif orientation == 'yyxyyyxyyyxxxxyxxxxxx':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         elif orientation == 'yyyyyyxyxyxyxxxxxxxxx':
             movesInBlueOrientation("R2 D Ri U2 R Di Ri U2 Ri")
             return(True)
@@ -947,10 +947,10 @@ def orientLastLayer():
         # Squares
         elif orientation == 'xxxxyyxyyxxxxxyxyyxyy':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         elif orientation == 'xyyxyyxxxyyxyxxxxxyyx':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         # C-shapes
         elif orientation == 'xxxyyyyxyxyxxxyxyxyxx':
             movesInBlueOrientation("R U R2i Ui Ri F R U R Ui Fi") 
@@ -961,17 +961,17 @@ def orientLastLayer():
         # W-shapes
         elif orientation == 'yxxyyxxyyyxxxyyxyxxxx':
             movesInBlueOrientation("") # ?
-            return(False)
+            return(False) # not yet implemented
         elif orientation == 'xyyyyxyxxxyxyyxxxyxxx':
             movesInBlueOrientation("R U Ri U R Ui Ri Ui Ri F R Fi")
             return(True)
         # Corners correct- flipped edges
         elif orientation == 'yyyyyxyxyxyxxyxxxxxxx':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         elif orientation == 'yxyyyyyxyxyxxxxxyxxxx':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         # P-shapes
         elif orientation == 'xyyxyyxxyyyxxxxxxyxyx':
             movesInBlueOrientation("Ri Ui F U R Ui Ri Fi R")
@@ -981,23 +981,23 @@ def orientLastLayer():
             return(True)
         elif orientation == 'yxxyyxyyxxxxyyyxyxxxx':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         elif orientation == 'xxyxyyxyyxxxxxxxyxyyy':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         # I-shapes
         elif orientation == 'xxxyyyxxxxyyxxxyyxyxy':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         elif orientation == 'xxxyyyxxxxyxyxyxyxyxy':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         elif orientation == 'xyxxyxxyxyxxyyyxxyxyx':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         elif orientation == 'xyxxyxxyxxxxyyyxxxyyy':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         # Fish shapes
         elif orientation == 'xyxyyxxxyyyxxyxyxxyxx':
             movesInBlueOrientation("R U Ri Ui Ri F R2 U Ri Ui Fi")
@@ -1014,23 +1014,23 @@ def orientLastLayer():
         # Knight move shapes
         elif orientation == 'xxxyyyyxxxyyxxyxyyxxx':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         elif orientation == 'xxxyyyxxyyyxxxxyyxyxx':
             movesInBlueOrientation("Ri F R U Ri Fi R F Ui Fi")
             return(True)
         elif orientation == 'xxyyyyxxxyyxyxxxyxyxx':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         elif orientation == 'xxxyyyxxyxyxxxyxyyxxy':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         # Awkward shapes
         elif orientation == 'yxyyyxxyxxxxyyxxyxxxy':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         elif orientation == 'yyxxyyyxxxyyxxxyxxxyx':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         elif orientation == 'xyxyyxyxyxyxxyxyxyxxx':
             movesInBlueOrientation("R U Ri U R U2i Ri F R U Ri Ui Fi")
             return(True)
@@ -1046,29 +1046,29 @@ def orientLastLayer():
             return(True)
         elif orientation == 'xyxxyyxxxxyyxxxyxxyyy':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         elif orientation == 'xxxxyyxyxxxyxxxyyxyyy':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         elif orientation == 'xxxxyyxyxxxxyxyxyxyyy':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         elif orientation == 'xyxxyyxxxxyxyxyxxxyyy':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         # Lightning bolts
         elif orientation == 'xyxyyxyxxxyyxyyxxyxxx':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         elif orientation == 'yxxyyxxyxyxxyyxyyxxxx':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         elif orientation == 'xxxxyyyyxxxyxxyxyyxyx':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         elif orientation == 'yyxxyyxxxyyxyxxyxxxyx':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         elif orientation == 'xxyyyyyxxxyxyxxxyyxxx':
             movesInBlueOrientation("L Fi Li Ui L U F Ui Li")
             return(True)
@@ -1081,30 +1081,144 @@ def orientLastLayer():
             return(True)
         elif orientation == 'xxxxyxxxxxyyxyxyyxyyy':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         elif orientation == 'xxxxyxxxyxyxxyyxyyxyy':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         elif orientation == 'xxyxyxxxxyyxyyxxyxyyx':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         elif orientation == 'yxyxyxxxxyyyxyxxyxxyx':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         elif orientation == 'yxyxyxxxxxyxyyxxyxxyy':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         elif orientation == 'yxxxyxxxyxyxxyxyyxxyy':
             movesInBlueOrientation("R U Ri U Ri F R Fi U2i Ri F R Fi")
             return(True)
         elif orientation == 'yxyxyxyxyxyxxyxxyxxyx':
             movesInBlueOrientation("") # convert
-            return(False)
+            return(False) # not yet implemented
         else:
             movesInBlueOrientation("U")
 
     return(False)
+
+# returns a list of 4 possible permutatioin of the last layer. The list contains four strings that are composed
+# of the numbers 1, 2, 3, and 0. These numbers represent a color, if we hold the cube with the blue face
+# towards us and yellow on top, the colors starting from the top left blue corner, then going around the cube to the right, stopping at the top right orange corner.
+# There are four so that we can detect a permutation but also the same permutation if the colors were switched so all cases are considered.
+def yellowPermutation():
+    j,k,l,m,n,o,p,q,r,s,t,u = cube[0][3], cube[0][4], cube[0][5], \
+    cube[3][8], cube[4][8], cube[5][8], \
+    cube[8][5], cube[8][4], cube[8][3], \
+    cube[5][0], cube[4][0], cube[3][0]
+
+    orientation = j+k+l+m+n+o+p+q+r+s+t+u
+    orientation = list(orientation)
+
+    orientations = []
+
+    for i in range(4):
+        temp = deepcopy(orientation)
+
+        for j in range(len(temp)):
+            if temp[j] == 'b':
+                temp[j] = str((1 + i) % 4)
+            if temp[j] == 'r':
+                temp[j] = str((2 + i) % 4)
+            if temp[j] == 'g':
+                temp[j] = str((3 + i) % 4)
+            if temp[j] == 'o':
+                temp[j] = str((4 + i) % 4)
         
+        orientations.append("".join(temp))
+    
+    return orientations
+
+# returns true if the permutation is found, false otherwise
+# each case is represented as a string which tells us which permutation we have.
+# once a permutation is found, an algorithm is executed, which solves the cube
+def permuteLastLayer():
+    for i in range(4):
+        permutation = yellowPermutation()
+
+        # Permute edges only
+        if '111222333000' in permutation:
+            return(True)
+        elif '323030111202' in permutation:
+            movesInBlueOrientation("R2 U R U Ri Ui Ri Ui Ri U Ri")
+            return(True)
+        elif '303020111232' in permutation:
+            movesInBlueOrientation("R Ui R U R U R Ui Ri Ui R2")
+            return(True)
+        elif '303030121212' in permutation:
+            movesInBlueOrientation("")
+            return(False) # not yet implemented
+        elif '202313020131' in permutation:
+            movesInBlueOrientation("")
+            return(False) # not yet implemented
+        # Permute corners only
+        elif '220132303011' in permutation:
+            movesInBlueOrientation("")
+            return(False) # not yet implemented
+        elif '223030102311' in permutation:
+            movesInBlueOrientation("")
+            return(False) # not yet implemented
+        elif '123032301210' in permutation:
+            movesInBlueOrientation("")
+            return(False) # not yet implemented
+        # Swap one set of adjacent corners
+        elif '330103021212' in permutation:
+            movesInBlueOrientation("R Ui Ri Ui R U R D Ri Ui R Di Ri U2 Ri Ui")
+            return(True)
+        elif '232320103011' in permutation:
+            movesInBlueOrientation("Ri U2 R U2i Ri F R U Ri Ui Ri Fi R2 Ui")
+            return(True)
+        elif '333001220112' in permutation:
+            movesInBlueOrientation("Ri U Li U2 R Ui Ri U2 R L Ui")
+            return(True)
+        elif '233022300111' in permutation:
+            movesInBlueOrientation("R U Ri Fi R U Ri Ui Ri F R2 Ui Ri Ui")
+            return(True)
+        elif '223012300131' in permutation:
+            movesInBlueOrientation("R U Ri Ui Ri F R2 Ui Ri Ui R U Ri Fi")
+            return(True)
+        elif '310103031222' in permutation:
+            movesInBlueOrientation("Ri Ui Fi R U Ri Ui Ri F R2 Ui Ri Ui R U Ri U R")
+            return(True)
+        # Swap one set of diagonal corners
+        elif '220103032311' in permutation:
+            movesInBlueOrientation("")
+            return(False) # not yet implemented
+        elif '220133012301' in permutation:
+            movesInBlueOrientation("F R Ui Ri Ui R U Ri Fi R U Ri Ui Ri F R Fi")
+            return(True)
+        elif '022311200133' in permutation:
+            movesInBlueOrientation("R U Ri U R U Ri Fi R U Ri Ui Ri F R2 Ui Ri U2 R Ui Ri")
+            return(True)
+        elif '220113002331' in permutation:
+            movesInBlueOrientation("Ri U R Ui Ri Fi Ui F R U Ri F Ri Fi R Ui R")
+            return(True)
+        # G permutations
+        elif '122301213030' in permutation:
+            movesInBlueOrientation("R2 U Ri U Ri Ui R Ui R2 D Ui Ri U R Di U")
+            return(True)
+        elif '311203020132' in permutation:
+            movesInBlueOrientation("")
+            return(False) # not yet implemented
+        elif '132301223010' in permutation:
+            movesInBlueOrientation("R2 Ui R Ui R U Ri U R2 Di U R Ui Ri D Ui")
+            return(True)
+        elif '102331213020' in permutation:
+            movesInBlueOrientation("Di R U Ri Ui D R2 Ui R Ui Ri U Ri U R2 U")
+            return(True)
+        else:
+            movesInBlueOrientation('U')
+    print("Not found", permutation)
+    return(False)
+
 #------------------------------------------------------------------------------------------------------------------
 # the following are helper functions, used to get some values, not used in program
 
