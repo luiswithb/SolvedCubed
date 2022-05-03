@@ -1,3 +1,4 @@
+from pickletools import optimize
 from solver import *
 
 def test():
@@ -24,6 +25,39 @@ def solution():
     for i in solutionMoves:
         temp.append(i.__name__)
     return temp
+
+def threeInRow(s):
+    t = []
+
+    i = 0
+    while i < len(s) - 2:
+        if (s[i] == s[i+1]) and (s[i+1] == s[i+2]):
+            t.append(s[i] + 'i')
+            i += 3
+        else:
+            t.append(s[i])
+            i += 1
+
+    return t
+
+def optimize(s):
+    t = []
+
+    i = 0
+    while i < len(s) - 2:
+        if((len(s[i]) == 2) and (s[i+1] == s[i][0])):
+            i += 2
+        else:
+            t.append(s[i])
+            i += 1
+
+        if((len(s[i]) == 2) and (s[i+1] == s[i][0])):
+            i += 2
+        else:
+            t.append(s[i])
+            i +=1
+
+    return t
 
 def main():
     print("Scrambled cube:")
@@ -59,12 +93,17 @@ def main():
 
     print("Ending cube:")
     printCube()
+    solutionMoves = solution()
+    solutionMovesO = threeInRow(solutionMoves)
+    solutionMovesFinal = optimize(solutionMovesO)
 
     if cube == solvedCube:
         print("Solved!")
-        print("Solution moves:",solution())
-        print("Number of moves:", len(solution()))
-        return solution()
+        print("Solution moves:",solutionMovesFinal)
+        print("Number of moves:", len(solutionMovesFinal))
+        print("-----------------------------")
+        print(solutionMoves)
+        print(len(solutionMoves))
     else:
         print("Could not solve :(")
         return False
